@@ -1,16 +1,16 @@
-# PokéStock Tracker
+# PokéStock Tracker 🧃📦
 
 A web app to track and report the stock of Pokémon vending machines in real-time, helping fans find what they need—and avoid scalpers.
 
-## Features
+## 🚀 Features
 
--  **Live Map View** using Leaflet.js to visualize vending machine locations and stock statuses.
--  **User-Submitted Reports** with image uploads and optional metadata verification.
--  **Real-Time Updates** with Firebase for fast, collaborative reporting.
-- **Search & Filter** by product availability, location, and date.
--  Community-driven reporting system to keep data fresh and reliable.
+- 📍 **Live Map View** using Leaflet.js to visualize vending machine locations and stock statuses.
+- 📸 **User-Submitted Reports** with image uploads and optional metadata verification.
+- 🔔 **Real-Time Updates** with Firebase for fast, collaborative reporting.
+- 🔎 **Search & Filter** by product availability, location, and date.
+- 🧑‍🤝‍🧑 Community-driven reporting system to keep data fresh and reliable.
 
-## Tech Stack
+## 🧪 Tech Stack
 
 ### Frontend
 - [Svelte](https://svelte.dev/) — Lightweight and reactive component framework
@@ -30,4 +30,9 @@ A web app to track and report the stock of Pokémon vending machines in real-tim
 - [Geofirestore](https://github.com/geofirestore/geofirestore) — For geolocation queries on Firestore
 - [Lottie or Heroicons](https://heroicons.com/) — Optional for enhanced visuals
 
-##  Setup Instructions
+## 🛠️ Setup Instructions
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/pokestock-tracker.git
+   cd pokestock-tracker

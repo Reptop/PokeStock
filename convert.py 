@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+# scripts/ts_to_csv.py
+
+import csv
+import re
+import sys
+
+# Adjust these paths if needed
+TS_PATH = 'src/lib/data/oregonMachines.ts'
+CSV_PATH = 'oregonMachines.csv'
+
+# This regex matches each single‐line object literal in your TS file
+OBJ_RE = re.compile(r"""
+  ^\s*\{\s*
+    retailer:\s*'(?P<retailer>[^']*)'\s*,\s*
+    machineId:\s*'(?P<machineId>[^']*)'\s*,\s*
+    address:\s*'(?P<address>[^']*)'\s*,\s*
+    city:\s*'(?P<city>[^']*)'\s*,\s*
+    state:\s*'(?P<state>[^']*)'\s*
+  \},?\s*$
+""", re.VERBOSE)
+
+def main():
+    rows = []
+    with open(TS_PATH, 'r', encoding='utf-8') as fin:
+        for line in fin:
+            m = OBJ_RE.match(line)
+            if m:
+                rows.append(m.groupdict())
+
+    if not rows:
+        print("❌ No matches found in", TS_PATH)
+        sys.exit(1)
+
+    # Write CSV
+    with open(CSV_PATH, 'w', newline='', encoding='utf-8') as fout:
+        writer = csv.DictWriter(fout,
+            fieldnames=['retailer','machineId','address','city','state'])
+        writer.writeheader()
+        writer.writerows(rows)
+
+    print(f"✅ Wrote {len(rows)} rows to {CSV_PATH}")
+
+if __name__ == '__main__':
+    main()

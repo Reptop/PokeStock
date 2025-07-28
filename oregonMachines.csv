@@ -1,0 +1,133 @@
+retailer,machineId,address,city,state
+Fred Meyer,Q00832,2500 Santiam Hwy SE,Albany,OR
+Safeway,Q00826,6055 SW 185th Ave,Aloha,OR
+Safeway,Q00855,20535 SW Tualatin Valley Hwy,Aloha,OR
+Fred Meyer,Q00138,11425 SW Beaverton Hillsdale Hwy,Beaverton,OR
+Fred Meyer,Q00140,15995 SW Walker Rd,Beaverton,OR
+Safeway,Q00201,14555 SW Teal Blvd,Beaverton,OR
+Safeway,Q00205,6194 SW Murray Blvd,Beaverton,OR
+WinCo Foods,Q00959,3025 SW Cedar Hills Blvd,Beaverton,OR
+Fred Meyer,Q01009,15995 SW Walker Rd,Beaverton,OR
+Fred Meyer,Q01011,11425 SW Beaverton Hillsdale Hwy,Beaverton,OR
+Fred Meyer,Q00151,1401 SE 1st Ave,Canby,OR
+Safeway,Q00816,1051 SW 1st Ave,Canby,OR
+Fred Meyer,Q00150,16301 SE 82nd Dr,Clackamas,OR
+Safeway,Q00204,12032 SE Sunnyside Rd,Clackamas,OR
+Fred Meyer,Q00997,16301 SE 82nd Dr,Clackamas,OR
+Fred Meyer,Q00782,2200 E Baseline St,Cornelius,OR
+WinCo Foods,Q00736,2335 NW Kings Blvd,Corvallis,OR
+Safeway,Q00952,590 NE Circle Blvd,Corvallis,OR
+Safeway,Q01321,5270 SW Philomath Blvd,Corvallis,OR
+Safeway,Q01318,1500 E Main St,Cottage Grove,OR
+Safeway,Q00883,138 W Ellendale Ave,Dallas,OR
+Fred Meyer,Q00913,60 Division Ave,Eugene,OR
+Fred Meyer,Q00946,3333 W 11th Ave,Eugene,OR
+Albertsons,Q01121,55 Division Ave,Eugene,OR
+Albertsons,Q01294,311 Coburg Rd,Eugene,OR
+Safeway,Q01307,1500 Coburg Rd,Eugene,OR
+WinCo Foods,Q01366,4275 Barger Dr,Eugene,OR
+Albertsons,Q01367,4740 Royal Ave,Eugene,OR
+Albertsons,Q01370,1675 W 18th Ave,Eugene,OR
+WinCo Foods,Q01798,2815 Chad Dr,Eugene,OR
+Safeway,Q00779,2836 Pacific Ave,Forest Grove,OR
+Safeway,Q01124,95 82nd Dr,Gladstone,OR
+Fred Meyer,Q00190,2497 SE Burnside Rd,Gresham,OR
+Safeway,Q00195,1455 NE Division St,Gresham,OR
+Safeway,Q00220,1001 SW Highland Dr,Gresham,OR
+WinCo Foods,Q01322,2511 SE 1st St,Gresham,OR
+Fred Meyer,Q00191,8955 SE 82nd Ave,Happy Valley,OR
+Fred Meyer,Q00202,17005 SE Sunnyside Rd,Happy Valley,OR
+Fred Meyer,Q00887,8955 SE 82nd Ave,Happy Valley,OR
+WinCo Foods,Q00957,11250 SE 82nd Ave,Happy Valley,OR
+Fred Meyer,Q00146,6495 SE Tualatin Valley Hwy,Hillsboro,OR
+Fred Meyer,Q00156,6495 SE Tualatin Valley Hwy,Hillsboro,OR
+Safeway,Q00192,2177 NW 185th Ave,Hillsboro,OR
+WinCo Foods,Q00766,7330 NE Butler St,Hillsboro,OR
+WinCo Foods,Q00770,1500 SW Oak St,Hillsboro,OR
+Fred Meyer,Q00847,22075 NW Imbrie Dr,Hillsboro,OR
+Albertsons,Q00949,7500 SW Baseline Rd,Hillsboro,OR
+Albertsons,Q00954,888 NE 25th Ave,Hillsboro,OR
+Safeway,Q00962,2525 SE Tualatin Valley Hwy,Hillsboro,OR
+Safeway,Q01305,1755 Ivy St,Junction City,OR
+Safeway,Q00996,4990 River Rd N,Keizer,OR
+WinCo Foods,Q01802,5450 River Rd N,Keizer,OR
+Safeway,Q00822,17779 Lower Boones Ferry Rd,Lake Oswego,OR
+Albertsons,Q01067,16199 Boones Ferry Rd,Lake Oswego,OR
+Safeway,Q01362,1983 S Main St,Lebanon,OR
+WinCo Foods,Q00716,2585 NE OR-99W,McMinnville,OR
+Albertsons,Q01008,615 SW Keck Cir,McMinnville,OR
+Safeway,Q00837,2490 N OR-99W,Mcminnville,OR
+Safeway,Q00137,14840 SE Webster Rd,Milwaukie,OR
+Safeway,Q01122,4370 SE King Rd,Milwaukie,OR
+Safeway,Q01113,1524 W Main St,Molalla,OR
+Fred Meyer,Q00884,3300 Portland Rd,Newberg,OR
+Fred Meyer,Q00894,3300 Portland Rd,Newberg,OR
+Safeway,Q01115,1140 N Springbrook Rd,Newberg,OR
+Fred Meyer,Q00843,14700 SE McLoughlin Blvd,Oak Grove,OR
+Fred Meyer,Q00998,14700 SE McLoughlin Blvd,Oak Grove,OR
+Albertsons,Q01452,1410 Westpark Plaza,Ontario,OR
+WinCo Foods,Q01706,1630 E Idaho Ave,Ontario,OR
+Fred Meyer,Q00141,1839 Molalla Ave,Oregon City,OR
+Safeway,Q01116,13434 Colton Pl,Oregon City,OR
+Albertsons,Q01304,19007 S Beavercreek Rd,Oregon City,OR
+Fred Meyer,Q00113,1111 NE 102nd Ave,Portland,OR
+Safeway,Q00119,13485 NW Cornell Rd,Portland,OR
+Safeway,Q00120,4515 SE Woodstock Blvd,Portland,OR
+Fred Meyer,Q00133,3805 SE Hawthorne Blvd,Portland,OR
+Fred Meyer,Q00145,14700 SE Division St,Portland,OR
+Fred Meyer,Q00149,11565 SW Pacific Hwy,Portland,OR
+Fred Meyer,Q00153,3030 NE Weidler St,Portland,OR
+Fred Meyer,Q00154,6850 N Lombard St,Portland,OR
+Fred Meyer,Q00162,7404 N Interstate Ave,Portland,OR
+Fred Meyer,Q00166,6850 N Lombard St,Portland,OR
+Fred Meyer,Q00172,6615 NE Glisan St,Portland,OR
+Fred Meyer,Q00184,7404 N Interstate Ave,Portland,OR
+QFC,Q00187,7525 SW Barnes Rd,Portland,OR
+Fred Meyer,Q00188,7555 SW Barbur Blvd,Portland,OR
+Safeway,Q00211,6901 NE Sandy Blvd,Portland,OR
+Safeway,Q00215,5920 NE Martin Luther King Jr Blvd,Portland,OR
+Safeway,Q00226,3930 SE Powell Blvd,Portland,OR
+Safeway,Q00258,3527 SE 122nd Ave,Portland,OR
+Fred Meyer,Q00262,7555 SW Barbur Blvd,Portland,OR
+Safeway,Q00797,2800 SE Hawthorne Blvd,Portland,OR
+Safeway,Q00813,8330 N Ivanhoe St,Portland,OR
+QFC,Q00818,4756 NW Bethany Blvd,Portland,OR
+Safeway,Q00830,1100 NE Broadway,Portland,OR
+Fred Meyer,Q00846,14700 SE Division St,Portland,OR
+WinCo Foods,Q00955,7979 SE Powell Blvd,Portland,OR
+WinCo Foods,Q00966,1222 NE 102nd Ave,Portland,OR
+Fred Meyer,Q00990,11565 SW Pacific Hwy,Portland,OR
+Fred Meyer,Q00999,6615 NE Glisan St,Portland,OR
+Fred Meyer,Q01006,7700 SW Beaverton Hillsdale Hwy,Portland,OR
+Fred Meyer,Q01010,100 NW 20th Pl,Portland,OR
+Albertsons,Q01127,451 NE 181st Ave,Portland,OR
+Albertsons,Q01130,5850 NE Prescott St,Portland,OR
+WinCo Foods,Q01359,1950 NE 122nd Ave,Portland,OR
+WinCo Foods,Q00769,4575 Commercial St SE,Salem,OR
+Safeway,Q00821,5660 Commercial St SE,Salem,OR
+Fred Meyer,Q00833,3450 Commercial St SE,Salem,OR
+Safeway,Q00848,1455 Edgewater St NW,Salem,OR
+Fred Meyer,Q00882,3740 Market St NE,Salem,OR
+Fred Meyer,Q00891,3740 Market St NE,Salem,OR
+Safeway,Q01001,1265 Center St NE,Salem,OR
+Safeway,Q01002,3380 Lancaster Dr NE,Salem,OR
+Safeway,Q00179,37601 US-26,Sandy,OR
+Fred Meyer,Q00189,16625 362ND Ave,Sandy,OR
+Fred Meyer,Q00876,51501 Columbia River Hwy,Scappoose,OR
+Safeway,Q00209,20685 SW Roy Rogers Rd,Sherwood,OR
+Safeway,Q01120,301 Westfield St,Silverton,OR
+Fred Meyer,Q00909,650 Q St,Springfield,OR
+Albertsons,Q00951,2000 Marcola Rd,Springfield,OR
+Albertsons,Q01128,5755 S Main St,Springfield,OR
+Safeway,Q01349,1891 Pioneer Pkwy E,Springfield,OR
+Safeway,Q01135,1535 N First Ave,Stayton,OR
+Safeway,Q01131,1540 Main St,Sweet Home,OR
+Safeway,Q00587,15570 SW Pacific Hwy,Tigard,OR
+WinCo Foods,Q01324,7501 SW Dartmouth St,Tigard,OR
+Albertsons,Q00844,25691 SE Stark St,Troutdale,OR
+Fred Meyer,Q00123,19200 SW Martinazzi Ave,Tualatin,OR
+Safeway,Q00246,22000 Salamo Rd,West Linn,OR
+Fred Meyer,Q00163,30300 SW Boones Ferry Rd,Wilsonville,OR
+Safeway,Q00182,8255 SW Wilsonville Rd,Wilsonville,OR
+Fred Meyer,Q00183,22855 NE Park Ln,Wood Village,OR
+Safeway,Q01132,1550 N Pacific Hwy,Woodburn,OR
