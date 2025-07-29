@@ -10,7 +10,7 @@ A web app to track and report the stock of Pokémon vending machines in real-tim
 -  **Search & Filter** by product availability, location, and date.
 -  Community-driven reporting system to keep data fresh and reliable.
 
-## 🧪 Tech Stack
+##  Tech Stack
 
 ### Frontend
 - [Svelte](https://svelte.dev/) — Lightweight and reactive component framework
