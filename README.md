@@ -36,3 +36,4 @@ A web app to track and report the stock of Pokémon vending machines in real-tim
    ```bash
    git clone https://github.com/your-username/pokestock-tracker.git
    cd pokestock-tracker
+   npm install
