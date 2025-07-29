@@ -1,14 +1,14 @@
-# PokéStock Tracker 🧃📦
+# PokéStock Tracker 
 
 A web app to track and report the stock of Pokémon vending machines in real-time, helping fans find what they need—and avoid scalpers.
 
-## 🚀 Features
+##  Features
 
-- 📍 **Live Map View** using Leaflet.js to visualize vending machine locations and stock statuses.
-- 📸 **User-Submitted Reports** with image uploads and optional metadata verification.
-- 🔔 **Real-Time Updates** with Firebase for fast, collaborative reporting.
-- 🔎 **Search & Filter** by product availability, location, and date.
-- 🧑‍🤝‍🧑 Community-driven reporting system to keep data fresh and reliable.
+-  **Live Map View** using Leaflet.js to visualize vending machine locations and stock statuses.
+-  **User-Submitted Reports** with image uploads and optional metadata verification.
+-  **Real-Time Updates** with Firebase for fast, collaborative reporting.
+-  **Search & Filter** by product availability, location, and date.
+-  Community-driven reporting system to keep data fresh and reliable.
 
 ## 🧪 Tech Stack
 
