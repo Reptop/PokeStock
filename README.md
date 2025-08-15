@@ -25,12 +25,7 @@ A web app to track and report the stock of Pokémon vending machines in real-tim
   - **Firebase Storage** — For storing image uploads
   - **Cloud Functions** — (optional) For image verification and moderation
 
-### Possible Libraries
-- [Exif-js](https://github.com/exif-js/exif-js) — For extracting image metadata client-side
-- [Geofirestore](https://github.com/geofirestore/geofirestore) — For geolocation queries on Firestore
-- [Lottie or Heroicons](https://heroicons.com/) — Optional for enhanced visuals
-
-## 🛠️ Setup Instructions
+## Setup
 
 1. Clone the repository:
    ```bash
