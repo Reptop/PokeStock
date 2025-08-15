@@ -2,14 +2,13 @@
 <script lang="ts">
   import Sidebar from "$lib/Sidebar.svelte";
   import VendingMap from "$lib/VendingMap.svelte";
-  import MachinePanel from "$lib/MachinePanel.svelte";
   import RecentReports from "$lib/RecentReports.svelte";
   import { oregonMachines } from "$lib/data/oregonMachines";
 
   const reports = [
     { message: "Restocked inventory at Q00832", timeAgo: "2 hours ago" },
     { message: "Low stock at Q00959", timeAgo: "1 day ago" },
-    { message: "Restocked inventory at Q01121", timeAgo: "3 days ago" },
+    { message: "Restocked inventory at Q01121", timeAgo: "3 days ago" }
   ];
 
   let selected: (typeof oregonMachines)[number] | null = null;
@@ -19,13 +18,14 @@
     const m = oregonMachines.find(
       (x) =>
         x.machineId === loc.machineId &&
-        x.address === loc.address &&
-        x.city === loc.city &&
-        x.state === loc.state,
+        x.address   === loc.address   &&
+        x.city      === loc.city      &&
+        x.state     === loc.state
     );
+    if (!m) 
+      return;
 
-    if (!m) return;
-    // attach preview reports if none
+    // Ensure preview reports if none (since the panel lives inside VendingMap and uses selected.reports)
     m.reports = m.reports?.length ? m.reports : fakeReports;
     selected = m;
 
@@ -42,10 +42,7 @@
 <main class="flex flex-col h-screen bg-gruvbox-dark1 text-gruvbox-fg">
   <div class="flex flex-1 overflow-hidden">
     <!-- LEFT COLUMN -->
-    <div
-      class="flex flex-col w-1/3 bg-gruvbox-dark1 overflow-hidden p-4 space-y-4 rounded-lg"
-    >
-      <!-- New Sidebar: listen for select -->
+    <div class="flex flex-col w-1/3 bg-gruvbox-dark1 overflow-hidden p-4 space-y-4 rounded-lg">
       <Sidebar
         locations={oregonMachines}
         on:select={(e) => handleSidebarSelect(e.detail)}
@@ -58,16 +55,11 @@
 
     <!-- RIGHT COLUMN -->
     <div class="relative flex-1 p-4">
-      <div
-        class="bg-gruvbox-dark1 rounded-2xl shadow-lg overflow-hidden h-full"
-      >
+      <div class="bg-gruvbox-dark1 rounded-2xl shadow-lg overflow-hidden h-full">
         <!-- Bind selected & map OUT of the map component -->
         <VendingMap machines={oregonMachines} bind:selected bind:map={mapRef} />
       </div>
 
-      {#if selected}
-        <MachinePanel {selected} on:close={closePanel} />
-      {/if}
     </div>
   </div>
 </main>

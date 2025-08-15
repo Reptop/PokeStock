@@ -1,86 +1,124 @@
-<!-- src/routes/reports/+page.svelte -->
+<!-- src/routes/reportlist/+page.svelte -->
 <script lang="ts">
+  import { onMount } from "svelte";
   import { goto } from "$app/navigation";
+  import { oregonMachines } from "$lib/data/oregonMachines";
+  import VoteWidget from "$lib/VoteWidget.svelte";
+  import { reportPostId } from "$lib/postIds";
 
+  // Raw shape from the reports microservice
+  type ApiReport = {
+    id: string;
+    machineId: string;
+    inStock: boolean;
+    comment: string;
+    photoURL?: string;
+    createdAt: string; // ISO timestamp
+    status: "visible" | "flagged" | "removed";
+  };
+
+  // Enriched UI shape
   type Report = {
     id: string;
     machineId: string;
     retailer: string;
     city: string;
     inStock: boolean;
-    upvotes: number;
-    downvotes: number;
     comment: string;
     timestamp: Date;
     photoUrl?: string;
   };
 
-  // ---- Fake data ----
-  const now = new Date();
-  const hoursAgo = (h: number) => new Date(now.getTime() - h * 3600 * 1000);
-  const fakeReports: Report[] = [
-    {
-      id: "r1",
-      machineId: "Q00832",
-      retailer: "Fred Meyer",
-      city: "Albany",
-      inStock: true,
-      upvotes: 6,
-      downvotes: 0,
-      comment: "Booster packs restocked. Plenty of stock.",
-      timestamp: hoursAgo(1),
-      photoUrl:
-        "https://m.media-amazon.com/images/I/71aX5MmNCFL._AC_SL1500_.jpg",
-    },
+  // --- simplest: call the microservice directly ---
+  const REPORTS_BASE = "http://localhost:5003"; // change if you use a different port
+  const ABUSE_BASE = "http://localhost:5006";
 
-    {
-      id: "r2",
-      machineId: "Q00959",
-      retailer: "WinCo Foods",
-      city: "Beaverton",
-      inStock: false,
-      upvotes: 2,
-      downvotes: 3,
-      comment: "Empty machine :(",
-      timestamp: hoursAgo(5),
-    },
-
-    {
-      id: "r3",
-      machineId: "Q01121",
-      retailer: "Albertsons",
-      city: "Eugene",
-      inStock: true,
-      upvotes: 10,
-      downvotes: 1,
-      comment: "New set arrived! Scarlet & Violet packs spotted.",
-      timestamp: hoursAgo(26),
-      photoUrl: "https://placehold.co/600x350?text=SV",
-    },
-
-    {
-      id: "r4",
-      machineId: "Q00119",
-      retailer: "Safeway",
-      city: "Portland",
-      inStock: false,
-      upvotes: 1,
-      downvotes: 4,
-      comment: "Someone just cleaned it out.",
-      timestamp: hoursAgo(52),
-    },
-  ];
-
-  let reports: Report[] = fakeReports;
+  let reports: Report[] = [];
+  let loading = true;
+  let errorMsg = "";
 
   // Filters / sort
   let search = "";
   let onlyInStock = false;
-  let sortBy: "newest" | "upvotes" | "instock" = "newest";
+  let sortBy: "newest" | "instock" = "newest";
 
   // Lightbox
   let lightboxUrl: string | null = null;
 
+  // Optional: allow filtering by machine via query (?machineId=Q00832)
+  let initialMachineFilter = "";
+
+  if (typeof window !== "undefined") {
+    const m = new URLSearchParams(window.location.search).get("machineId");
+    if (m) initialMachineFilter = m;
+  }
+
+  const machineIndex = new Map(oregonMachines.map((m) => [m.machineId, m]));
+
+  // Call the anti-abuse microservice
+  async function flagReport(id: string) {
+    try {
+      const res = await fetch(`${ABUSE_BASE}/api/flags`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          targetType: "report",
+          targetId: id,
+          userId: 123,
+          reason: "spam",
+        }),
+      });
+
+      if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(`Flag failed: HTTP ${res.status} — ${msg}`);
+      }
+
+      // UX ping; swap with a toast if you have one
+      alert("Thanks! Our moderators will review this report.");
+    } catch (err) {
+      console.error("flagReport error:", err);
+      alert("Could not flag this report. Check console for details.");
+    }
+  }
+
+  async function fetchRecent() {
+    loading = true;
+    errorMsg = "";
+    try {
+      const res = await fetch(`${REPORTS_BASE}/api/reports/recent?limit=200`);
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`Fetch failed: ${res.status} — ${text}`);
+      }
+      const data: ApiReport[] = await res.json();
+
+      reports = data
+        .filter((r) => r.status !== "removed")
+        .map((r) => {
+          const m = machineIndex.get(r.machineId);
+          return {
+            id: r.id,
+            machineId: r.machineId,
+            retailer: m?.retailer ?? "Unknown",
+            city: m?.city ?? "Unknown",
+            inStock: r.inStock,
+            comment: r.comment ?? "",
+            timestamp: new Date(r.createdAt),
+            photoUrl: r.photoURL,
+          } as Report;
+        });
+    } catch (e: any) {
+      errorMsg = e?.message ?? "Failed to load reports";
+      reports = [];
+    } finally {
+      loading = false;
+    }
+  }
+
+  onMount(fetchRecent);
+
+  // Grouping helpers
   function groupByDay(list: Report[]) {
     const today = new Date();
     const yday = new Date(today);
@@ -107,8 +145,13 @@
   // Filter + sort pipeline
   $: filtered = reports.filter((r) => {
     if (onlyInStock && !r.inStock) return false;
+
+    if (initialMachineFilter && r.machineId !== initialMachineFilter)
+      return false;
+
     const q = search.trim().toLowerCase();
     if (!q) return true;
+
     return (
       r.machineId.toLowerCase().includes(q) ||
       r.retailer.toLowerCase().includes(q) ||
@@ -121,13 +164,6 @@
     if (sortBy === "newest") {
       return [...filtered].sort(
         (a, b) => b.timestamp.getTime() - a.timestamp.getTime(),
-      );
-    }
-    if (sortBy === "upvotes") {
-      return [...filtered].sort(
-        (a, b) =>
-          b.upvotes - a.upvotes ||
-          b.timestamp.getTime() - a.timestamp.getTime(),
       );
     }
     // inStock first, then newest
@@ -147,9 +183,8 @@
       minute: "2-digit",
     });
 
-  function openMachine(mId: string) {
-    // adjust this route to your actual machine detail/history page
-    goto(`/machines/${mId}`);
+  function openReport(id: string) {
+    goto(`/reports/${id}`);
   }
 </script>
 
@@ -159,7 +194,12 @@
 
 <main>
   <div class="container">
-    <h1 class="heading">Reports</h1>
+    <div class="heading-row">
+      <h1 class="heading">Reports</h1>
+      <button class="btn btn-refresh" on:click={fetchRecent} disabled={loading}>
+        {loading ? "Refreshing…" : "Refresh"}
+      </button>
+    </div>
 
     <!-- Filters -->
     <div class="filters">
@@ -175,15 +215,19 @@
         <span>In stock only</span>
       </label>
 
-      <select class="select-sort" bind:value={sortBy}>
+      <select class="select-sort" bind:value={sortBy} title="Sort by">
         <option value="newest">Newest</option>
-        <option value="upvotes">Most upvotes</option>
         <option value="instock">In-stock first</option>
       </select>
     </div>
 
-    <!-- Grouped sections -->
-    {#if sorted.length === 0}
+    {#if errorMsg}
+      <p class="error mt-4">Error: {errorMsg}</p>
+    {/if}
+
+    {#if loading}
+      <p class="text-sm mt-8" style="color: var(--gv-gray);">Loading…</p>
+    {:else if sorted.length === 0}
       <p class="text-sm mt-8" style="color: var(--gv-gray);">
         No reports match your filters.
       </p>
@@ -194,7 +238,7 @@
             <h2 class="day-title">{label}</h2>
 
             {#each list as r}
-              <article class="card" on:click={() => openMachine(r.machineId)}>
+              <article class="card" on:click={() => openReport(r.id)}>
                 {#if r.photoUrl}
                   <div
                     class="photo"
@@ -212,50 +256,28 @@
                     <time class="time">{fmtTime(r.timestamp)}</time>
                   </div>
 
-                  <p class="comment">{r.comment}</p>
+                  <p class="comment">{r.comment || "No additional notes."}</p>
 
-                  <div class="badges">
+                  <div class="row-bottom">
                     <span
                       class="badge {r.inStock ? 'badge-stock' : 'badge-out'}"
                     >
                       {#if r.inStock}✓ In stock{:else}✕ Out{/if}
                     </span>
 
-                    <span class="vote up">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-3 w-3"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M5 15l7-7 7 7"
-                        />
-                      </svg>
-                      {r.upvotes}
-                    </span>
+                    <!-- Voting widget (microservice) -->
+                    <div class="votes" on:click|stopPropagation>
+                      <VoteWidget postId={reportPostId(r.id)} />
+                    </div>
 
-                    <span class="vote down">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-3 w-3"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                      {r.downvotes}
-                    </span>
+                    <!-- Flag button -->
+                    <button
+                      class="btn-flag"
+                      title="Flag this report"
+                      on:click|stopPropagation={() => flagReport(r.id)}
+                    >
+                      Flag
+                    </button>
                   </div>
                 </div>
               </article>
@@ -297,20 +319,52 @@
     background-color: var(--gv-bg1);
     color: var(--gv-fg);
   }
-
   .container {
     @apply max-w-5xl mx-auto space-y-8;
   }
 
+  .heading-row {
+    @apply flex items-center justify-between gap-3;
+  }
   .heading {
     @apply font-mono text-3xl;
     color: var(--gv-orange);
   }
 
+  .btn-flag {
+    background: #fb4934;
+    color: #282828;
+    font-family: ui-monospace, monospace;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    border: none;
+    cursor: pointer;
+    transition: filter 0.15s;
+  }
+  .btn-flag:hover {
+    filter: brightness(0.9);
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center px-3 py-2 font-mono text-sm rounded-lg transition-colors;
+  }
+  .btn-refresh {
+    background-color: var(--gv-bg0);
+    color: var(--gv-fg);
+    box-shadow: 0 0 0 1px #504945 inset;
+  }
+  .btn-refresh:hover {
+    background-color: #504945;
+  }
+  .btn-refresh:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+
   .filters {
     @apply flex flex-wrap gap-3 items-center;
   }
-
   .search-input {
     @apply rounded-md px-3 py-2 outline-none border border-transparent;
     background-color: var(--gv-bg0);
@@ -375,7 +429,6 @@
   .info {
     @apply flex-1 flex flex-col gap-2;
   }
-
   .title-line {
     @apply flex items-center justify-between gap-2 flex-wrap;
   }
@@ -393,11 +446,11 @@
     color: var(--gv-fg);
   }
 
-  .badges {
-    @apply flex items-center gap-3 text-xs font-mono;
+  .row-bottom {
+    @apply flex items-center gap-3 justify-between;
   }
   .badge {
-    @apply inline-flex items-center gap-1 px-2 py-[2px] rounded-md;
+    @apply inline-flex items-center gap-1 px-2 py-[2px] rounded-md font-mono text-xs;
   }
   .badge-stock {
     background-color: var(--gv-green);
@@ -408,15 +461,15 @@
     color: #282828;
   }
 
-  .vote {
-    @apply inline-flex items-center gap-1;
-    color: var(--gv-gray);
+  .votes {
+    @apply ml-auto;
   }
-  .vote.up svg {
-    stroke: var(--gv-green);
+
+  .error {
+    color: var(--gv-red);
   }
-  .vote.down svg {
-    stroke: var(--gv-gray);
+  .text-sm {
+    font-size: 0.875rem;
   }
 
   /* Lightbox */

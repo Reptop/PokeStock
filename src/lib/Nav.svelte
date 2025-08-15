@@ -1,32 +1,39 @@
 <!-- src/lib/Nav.svelte -->
 <script lang="ts">
-  import { page } from '$app/stores';
+  import { page } from "$app/stores";
 
   const navItems = [
-    { name: 'Home',     href: '/' },
-    { name: 'Reports',  href: '/reportlist' },
-    { name: 'Submit Report',  href: '/reports/new' }, 
-    { name: 'Log In',   href: '/login' }
+    { name: "Home", href: "/" },
+    { name: "Reports", href: "/reportlist" },
+    { name: "Submit Report", href: "/reports/new" },
+    { name: "Log In", href: "/login" },
   ];
 </script>
 
 <nav class="nav-root font-mono">
-  <!-- Left “prompt” -->
-  <a href="/" class="brand">
-    <span class="prompt">λ</span> PokéStock&nbsp;Tracker
-    <span class="cursor" aria-hidden="true">▋</span>
-  </a>
+  <!-- Brand + visible benefit (IH#1) -->
+  <div class="brand-group">
+    <a href="/" class="brand">
+      <span class="prompt">λ</span> PokéStock Tracker
+      <span class="cursor" aria-hidden="true">▋</span>
+    </a>
+    <p class="subtitle">Find Pokémon vending machines near you</p>
+  </div>
 
   <!-- Links -->
   <ul class="links">
     {#each navItems as { name, href }}
       <li>
         <a
-          href={href}
+          {href}
+          aria-label={name === "Log In" ? "Log In (about 2 minutes)" : name}
           class="link {$page.url.pathname === href ? 'active' : ''}"
         >
           <span class="bracket">[</span>{name}<span class="bracket">]</span>
-
+          {#if name === "Log In"}
+            <!-- Cost hint (IH#2) -->
+            <span class="hint" aria-hidden="true">≈2 min</span>
+          {/if}
         </a>
       </li>
     {/each}
@@ -40,15 +47,15 @@
   /* pull tailwind utilities */
   @reference "../app.css";
 
-  /* Colors (Gruvbox) */
+  /* Gruvbox palette */
   :root {
-    --gv-bg0:  #282828;
-    --gv-bg1:  #3c3836;
-    --gv-fg1:  #ebdbb2;
+    --gv-bg0: #282828;
+    --gv-bg1: #3c3836;
+    --gv-fg1: #ebdbb2;
     --gv-yellow: #fabd2f;
-    --gv-green:  #b8bb26;
+    --gv-green: #b8bb26;
     --gv-orange: #fe8019;
-    --gv-red:    #fb4934;
+    --gv-red: #fb4934;
   }
 
   .nav-root {
@@ -57,8 +64,18 @@
     color: var(--gv-fg1);
   }
 
+  .brand-group {
+    @apply flex flex-col;
+  }
+
   .brand {
     @apply text-xl font-bold flex items-center gap-1 hover:text-[var(--gv-yellow)] transition-colors;
+  }
+
+  .subtitle {
+    @apply text-xs mt-1;
+    color: var(--gv-green);
+    opacity: 0.8;
   }
 
   .prompt {
@@ -76,20 +93,26 @@
   }
 
   .link {
-    @apply transition-colors duration-150;
+    @apply transition-colors duration-150 inline-flex items-center gap-2;
     color: var(--gv-fg1);
     position: relative;
   }
 
+  .hint {
+    @apply text-[10px] px-1 py-[1px] rounded;
+    color: #1d2021;
+    background: var(--gv-yellow);
+    opacity: 0.9;
+  }
+
   .link .bracket {
     color: var(--gv-bg1);
-    transition: color .15s;
+    transition: color 0.15s;
   }
 
   .link:hover .bracket {
     color: var(--gv-green);
   }
-
   .link:hover {
     color: var(--gv-yellow);
   }
@@ -102,25 +125,34 @@
   /* glitchy scanline at bottom */
   .scanline {
     position: absolute;
-    left: 0; right: 0; bottom: -1px;
+    left: 0;
+    right: 0;
+    bottom: -1px;
     height: 2px;
-    background: linear-gradient(90deg,
+    background: linear-gradient(
+      90deg,
       var(--gv-green) 0%,
       var(--gv-yellow) 20%,
       var(--gv-orange) 40%,
       var(--gv-red) 60%,
       var(--gv-yellow) 80%,
-      var(--gv-green) 100%);
-    opacity: .25;
+      var(--gv-green) 100%
+    );
+    opacity: 0.25;
     animation: slide 5s linear infinite;
   }
 
   @keyframes blink {
-    to { opacity: 0; }
+    to {
+      opacity: 0;
+    }
   }
-
   @keyframes slide {
-    0%   { transform: translateX(-50%); }
-    100% { transform: translateX(50%);  }
+    0% {
+      transform: translateX(-50%);
+    }
+    100% {
+      transform: translateX(50%);
+    }
   }
 </style>
